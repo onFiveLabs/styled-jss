@@ -1,10 +1,15 @@
 import type { ReactElement } from 'react'
 import Head from 'next/head'
+import { Grid, Box } from '@material-ui/core'
 
 // src
 import Layout from '../src/templates/Layout'
 
-export default function Index({ side }) {
+interface IndexProps {
+  side: string
+}
+
+export default function Index({ side }: IndexProps): JSX.Element {
   return (
     <>
       <Head>
@@ -14,6 +19,14 @@ export default function Index({ side }) {
       </Head>
 
       {side ?? 'client'} side
+
+      <Grid>
+        Vrode rabotaet
+      </Grid>
+
+      <Box p={4}>
+        A vrode net
+      </Box>
     </>
   )
 }
@@ -24,7 +37,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   return {
     props: {
       side: 'server'

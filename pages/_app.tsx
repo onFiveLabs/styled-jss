@@ -5,8 +5,8 @@ import type { AppProps } from 'next/app'
 
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { ThemeProvider } from '@material-ui/core/styles'
-
+import { ThemeProvider as StyledThemeProvider } from 'styled-components'
+import { ThemeProvider as MaterialThemeProvider } from '@material-ui/core/styles'
 
 // src
 import '../styles/globals.css'
@@ -20,18 +20,22 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page)
 
+  useEffect(() => {
+    const jssStyles = document.querySelector('#jss-server-side')
+    if (jssStyles && jssStyles.parentNode)
+      jssStyles.parentNode.removeChild(jssStyles)
+  }, [])
+
   return (
-    <>
-      <ThemeProvider theme={theme}>
+    <StyledThemeProvider theme={theme}>
+      <MaterialThemeProvider theme={theme}>
         <CssBaseline />
         {getLayout(<Component {...pageProps} />)}
-      </ThemeProvider>
-    </>
+      </MaterialThemeProvider>
+    </StyledThemeProvider>
   )
 }
-
-export default MyApp
